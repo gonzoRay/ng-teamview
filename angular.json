@@ -2,14 +2,132 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "",
-  "projects": {},
+  "projects": {
+    "dev-teamview": {
+      "root": "apps/dev-teamview/",
+      "sourceRoot": "apps/dev-teamview/src",
+      "projectType": "application",
+      "prefix": "tv",
+      "schematics": {
+        "@nrwl/schematics:component": {
+          "style": "scss"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/dev-teamview",
+            "index": "apps/dev-teamview/src/index.html",
+            "main": "apps/dev-teamview/src/main.ts",
+            "polyfills": "apps/dev-teamview/src/polyfills.ts",
+            "tsConfig": "apps/dev-teamview/tsconfig.app.json",
+            "assets": [
+              "apps/dev-teamview/src/favicon.ico",
+              "apps/dev-teamview/src/assets"
+            ],
+            "styles": ["apps/dev-teamview/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/dev-teamview/src/environments/environment.ts",
+                  "with": "apps/dev-teamview/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "dev-teamview:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "dev-teamview:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "dev-teamview:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/dev-teamview/tsconfig.app.json",
+              "apps/dev-teamview/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "apps/dev-teamview/jest.config.js",
+            "tsConfig": "apps/dev-teamview/tsconfig.spec.json",
+            "setupFile": "apps/dev-teamview/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "dev-teamview-e2e": {
+      "root": "apps/dev-teamview-e2e",
+      "projectType": "application",
+      "prefix": "",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/builders:cypress",
+          "options": {
+            "cypressConfig": "apps/dev-teamview-e2e/cypress.json",
+            "tsConfig": "apps/dev-teamview-e2e/tsconfig.e2e.json",
+            "devServerTarget": "dev-teamview:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "dev-teamview:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "apps/dev-teamview-e2e/tsconfig.e2e.json",
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    }
+  },
   "cli": {
     "warnings": {
       "typescriptMismatch": false,
       "versionMismatch": false
     },
     "defaultCollection": "@nrwl/schematics"
-    
   },
-  "schematics": {}
+  "schematics": {},
+  "defaultProject": "dev-teamview"
 }

@@ -7,5 +7,12 @@
     "tslint.json": "*",
     "nx.json": "*"
   },
-  "projects": {}
+  "projects": {
+    "dev-teamview": {
+      "tags": []
+    },
+    "dev-teamview-e2e": {
+      "tags": []
+    }
+  }
 }
