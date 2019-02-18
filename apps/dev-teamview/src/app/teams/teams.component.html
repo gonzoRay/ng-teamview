@@ -1,3 +1,40 @@
-<p>
-  teams works!
-</p>
+<!--
+  <mat-grid-list cols="2" rowHeight="100px">
+    <mat-grid-tile colspan="1" rowspan="1" [style.background]="'pink'">
+      Commerce
+    </mat-grid-tile>
+    <mat-grid-tile colspan="2" rowspan="2" [style.background]="'green'">
+      Registration
+    </mat-grid-tile>
+  </mat-grid-list>
+-->
+
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let team of teams" expanded>
+    <mat-expansion-panel-header>
+      <mat-panel-title> {{ team.name }} </mat-panel-title>
+      <mat-panel-description>
+        Team Lead: {{ team.lead }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-card *ngFor="let project of team.projects">
+      <mat-card-header>
+        <div mat-card-avatar class="project-header-image"></div>
+        <mat-card-title>{{ project.name }}</mat-card-title>
+        <mat-card-subtitle
+          >{{ project.lastBuild.builtWith }} - CLI Version:
+          {{ project.lastBuild.builtWithVersion }}
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <h2 class="mat-h1">
+          Bundle size: {{ project.lastBuild.maxChunkSizeInMb + ' MB' }}
+        </h2>
+        <h2 class="mat-h2">
+          Last build time: {{ project.lastBuild.buildTimestamp }}
+        </h2>
+      </mat-card-content>
+    </mat-card>
+  </mat-expansion-panel>
+</mat-accordion>
